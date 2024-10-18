@@ -6,6 +6,7 @@ import com.example.libraryService.Mapper.BookMapper;
 import com.example.libraryService.Repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
 public class BookService {
@@ -26,7 +27,7 @@ public class BookService {
             return null;
 
         bookRepository.save(book);
-        return bookMapper.bookToBookDto(bookRepository.findById(book.getId()).orElseThrow(IllegalArgumentException::new));
+        return bookRepository.findById(book.getId()).map(value -> bookMapper.bookToBookDto(value)).orElse(null);
     }
 
     public BookDTO update(Book book) {
@@ -51,6 +52,31 @@ public class BookService {
             book.setIsbn(oldBook.get().getIsbn());
 
         bookRepository.save(book);
-        return bookMapper.bookToBookDto(bookRepository.findById(book.getId()).orElseThrow(IllegalArgumentException::new));
+        return bookRepository.findById(book.getId()).map(value -> bookMapper.bookToBookDto(value)).orElse(null);
+    }
+
+    public boolean delete(Long id) {
+        Optional<Book> book = bookRepository.findById(id);
+
+        if (book.isEmpty())
+            return false;
+
+        bookRepository.deleteById(id);
+        return true;
+    }
+
+    public List<BookDTO> getAll() {
+        return bookMapper.booksToBookDtos(bookRepository.findAll());
+    }
+
+    public BookDTO getById(Long id) {
+        return bookRepository.findById(id).map(value -> bookMapper.bookToBookDto(value)).orElse(null);
+    }
+
+    public BookDTO getByISBN(String isbn) {
+        Optional<Book> book = bookRepository.findAll().stream()
+                .filter(e -> e.getIsbn().equals(isbn))
+                .findFirst();
+        return book.map(value -> bookMapper.bookToBookDto(value)).orElse(null);
     }
 }
