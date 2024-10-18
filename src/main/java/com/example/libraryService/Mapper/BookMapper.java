@@ -8,13 +8,12 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(componentModel = "string")
+@Mapper(componentModel = "spring")
 public interface BookMapper {
     BookMapper INSTANCE = Mappers.getMapper(BookMapper.class);
 
-    @Mapping(target = "formatedIsbn", expression = "java(bookDTO.formatIsbn())")
+    @Mapping(target = "formattedIsbn", expression = "java(bookDTO.formatIsbn(book.getIsbn()))")
     BookDTO bookToBookDto(Book book);
 
-    @Mapping(target = "formatedIsbn", expression = "java(bookDTO.formatIsbn())")
     List<BookDTO> booksToBookDtos(List<Book> books);
 }

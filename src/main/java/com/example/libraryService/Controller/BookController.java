@@ -49,7 +49,7 @@ public class BookController {
                 new ResponseEntity<>(books, HttpStatus.OK);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/id={id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         BookDTO book = bookService.getById(id);
         return book == null ?
@@ -57,7 +57,7 @@ public class BookController {
                 new ResponseEntity<>(book, HttpStatus.OK);
     }
 
-    @GetMapping("/isbn")
+    @GetMapping("/isbn={isbn}")
     public ResponseEntity<?> getByISBN(@PathVariable String isbn) {
         BookDTO book = bookService.getByISBN(isbn);
         return book == null ?

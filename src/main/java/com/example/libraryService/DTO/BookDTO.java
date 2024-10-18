@@ -1,12 +1,5 @@
 package com.example.libraryService.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
-@AllArgsConstructor
 public class BookDTO {
     private String name;
 
@@ -16,7 +9,59 @@ public class BookDTO {
 
     private String author;
 
-    private String formatedIsbn;
+    private String formattedIsbn;
+
+    public BookDTO(String name, String genre, String description, String author, String formattedIsbn) {
+        this.name = name;
+        this.genre = genre;
+        this.description = description;
+        this.author = author;
+        this.formattedIsbn = formattedIsbn;
+    }
+
+    public BookDTO() {
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getFormattedIsbn() {
+        return formattedIsbn;
+    }
+
+    public void setFormattedIsbn(String formattedIsbn) {
+        this.formattedIsbn = formattedIsbn;
+    }
 
     public String formatIsbn(String isbn) {
         return String.format(
