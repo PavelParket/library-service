@@ -1,8 +1,8 @@
-package com.example.libraryService.Controller;
+package com.example.libraryService.controller;
 
-import com.example.libraryService.DTO.BookDTO;
-import com.example.libraryService.Entity.Book;
-import com.example.libraryService.Service.BookService;
+import com.example.libraryService.dto.BookDTO;
+import com.example.libraryService.entity.Book;
+import com.example.libraryService.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +19,9 @@ public class BookController {
     @PutMapping("/c")
     public ResponseEntity<?> create(@RequestBody Book book) {
         BookDTO newBook = bookService.create(book);
-
-        if (newBook == null)
-            return new ResponseEntity<>("Not created", HttpStatus.INTERNAL_SERVER_ERROR);
-
-        return new ResponseEntity<>(newBook, HttpStatus.OK);
+        return newBook == null ?
+                new ResponseEntity<>("Not created", HttpStatus.INTERNAL_SERVER_ERROR) :
+                new ResponseEntity<>(newBook, HttpStatus.OK);
     }
 
     @PutMapping("/u")
@@ -41,7 +39,7 @@ public class BookController {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/public/all")
     public ResponseEntity<?> getAll() {
         List<BookDTO> books = bookService.getAll();
         return books == null ?

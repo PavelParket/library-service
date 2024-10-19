@@ -1,4 +1,4 @@
-package com.example.libraryService.Entity;
+package com.example.libraryService.entity;
 
 import jakarta.persistence.*;
 
