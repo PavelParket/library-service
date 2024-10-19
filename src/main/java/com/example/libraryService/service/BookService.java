@@ -1,12 +1,10 @@
-package com.example.libraryService.Service;
+package com.example.libraryService.service;
 
-import com.example.libraryService.DTO.BookDTO;
-import com.example.libraryService.Entity.Book;
-import com.example.libraryService.Mapper.BookMapper;
-import com.example.libraryService.Repository.BookRepository;
-import jakarta.websocket.server.ServerEndpoint;
+import com.example.libraryService.dto.BookDTO;
+import com.example.libraryService.entity.Book;
+import com.example.libraryService.mapper.BookMapper;
+import com.example.libraryService.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,12 +19,11 @@ public class BookService {
     private BookMapper bookMapper;
 
     public BookDTO create(Book book) {
-        if (book.getName().isEmpty() ||
-                book.getGenre().isEmpty() ||
-                book.getDescription().isEmpty() ||
-                book.getAuthor().isEmpty() ||
-                book.getIsbn().isEmpty() ||
-                book.isValidIsbn(book.getIsbn())
+        if (book.getName() == null ||
+                book.getGenre() == null ||
+                book.getDescription() == null ||
+                book.getAuthor() == null ||
+                book.getIsbn() == null
         )
             return null;
 

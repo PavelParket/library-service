@@ -1,4 +1,4 @@
-package com.example.libraryService.DTO;
+package com.example.libraryService.dto;
 
 public class BookDTO {
     private String name;

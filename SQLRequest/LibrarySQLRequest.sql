@@ -7,5 +7,5 @@ create table book (
     genre varchar(20) not null,
     description varchar(100) not null,
     author varchar(40) not null,
-    isbn varchar(13) not null
+    isbn varchar(13) not null unique
 );
