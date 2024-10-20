@@ -84,7 +84,25 @@ public class Book {
         this.isbn = isbn;
     }
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "name='" + name + '\'' +
+                ", genre='" + genre + '\'' +
+                ", description='" + description + '\'' +
+                ", author='" + author + '\'' +
+                ", isbn='" + isbn + '\'' +
+                '}';
+    }
+
     public boolean isValidIsbn(String isbn) {
-        return isbn.length() == 13;
+        if (isbn.length() != 13)
+            return false;
+
+        for (char e : isbn.toCharArray())
+            if (!Character.isDigit(e))
+                return false;
+
+        return true;
     }
 }

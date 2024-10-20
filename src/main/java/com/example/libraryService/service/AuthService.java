@@ -56,10 +56,10 @@ public class AuthService {
             User user = userRepository.findByUsername(request.getUsername()).orElseThrow();
             String token = jwtUtil.generateToken(user);
             String newToken = jwtUtil.generateRefreshToken(new HashMap<>(), user);
-            response.setStatusCode(200);
+            response.setStatusCode(202);
             response.setToken(token);
             response.setRefreshToken(newToken);
-            response.setExpirationTime("1min");
+            response.setExpirationTime("5min");
             response.setMessage("Successfully signed in");
         } catch (Exception e) {
             response.setStatusCode(500);
@@ -79,7 +79,7 @@ public class AuthService {
             response.setStatusCode(200);
             response.setToken(token);
             response.setRefreshToken(request.getToken());
-            response.setExpirationTime("1min");
+            response.setExpirationTime("5min");
             response.setMessage("Successfully refreshed token");
         }
         else

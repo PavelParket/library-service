@@ -23,7 +23,8 @@ public class BookService {
                 book.getGenre() == null ||
                 book.getDescription() == null ||
                 book.getAuthor() == null ||
-                book.getIsbn() == null
+                book.getIsbn() == null ||
+                !book.isValidIsbn(book.getIsbn())
         )
             return null;
 
@@ -31,8 +32,8 @@ public class BookService {
         return bookRepository.findById(book.getId()).map(value -> bookMapper.bookToBookDto(value)).orElse(null);
     }
 
-    public BookDTO update(Book book) {
-        Optional<Book> oldBook = bookRepository.findById(book.getId());
+    public BookDTO update(Long id, Book book) {
+        Optional<Book> oldBook = bookRepository.findById(id);
 
         if (oldBook.isEmpty())
             return null;
@@ -49,11 +50,11 @@ public class BookService {
         if (book.getDescription() == null)
             book.setDescription(oldBook.get().getDescription());
 
-        if (book.getIsbn() == null || book.isValidIsbn(book.getIsbn()))
+        if (book.getIsbn() == null || !book.isValidIsbn(book.getIsbn()))
             book.setIsbn(oldBook.get().getIsbn());
 
         bookRepository.save(book);
-        return bookRepository.findById(book.getId()).map(value -> bookMapper.bookToBookDto(value)).orElse(null);
+        return bookRepository.findById(id).map(value -> bookMapper.bookToBookDto(value)).orElse(null);
     }
 
     public boolean delete(Long id) {

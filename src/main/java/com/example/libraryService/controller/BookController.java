@@ -21,21 +21,21 @@ public class BookController {
         BookDTO newBook = bookService.create(book);
         return newBook == null ?
                 new ResponseEntity<>("Not created", HttpStatus.INTERNAL_SERVER_ERROR) :
-                new ResponseEntity<>(newBook, HttpStatus.OK);
+                new ResponseEntity<>(newBook, HttpStatus.CREATED);
     }
 
-    @PutMapping("/u")
-    public ResponseEntity<?> update(@RequestBody Book book) {
-        BookDTO newBook = bookService.update(book);
+    @PutMapping("/u?{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Book book) {
+        BookDTO newBook = bookService.update(id, book);
         return newBook == null ?
                 new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND) :
                 new ResponseEntity<>(newBook, HttpStatus.OK);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         return bookService.delete(id) ?
-                new ResponseEntity<>(HttpStatus.OK) :
+                new ResponseEntity<>("Deleted", HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
@@ -51,7 +51,7 @@ public class BookController {
     public ResponseEntity<?> getById(@PathVariable Long id) {
         BookDTO book = bookService.getById(id);
         return book == null ?
-                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND) :
                 new ResponseEntity<>(book, HttpStatus.OK);
     }
 
@@ -59,7 +59,7 @@ public class BookController {
     public ResponseEntity<?> getByISBN(@PathVariable String isbn) {
         BookDTO book = bookService.getByISBN(isbn);
         return book == null ?
-                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND) :
                 new ResponseEntity<>(book, HttpStatus.OK);
     }
 }
