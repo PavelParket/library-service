@@ -24,7 +24,8 @@ public class Book {
     @Column(name = "isbn", nullable = false)
     private String isbn;
 
-    public Book(String name, String genre, String description, String author, String isbn) {
+    public Book(Long id, String name, String genre, String description, String author, String isbn) {
+        this.id = id;
         this.name = name;
         this.genre = genre;
         this.description = description;
@@ -87,7 +88,8 @@ public class Book {
     @Override
     public String toString() {
         return "Book{" +
-                "name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", genre='" + genre + '\'' +
                 ", description='" + description + '\'' +
                 ", author='" + author + '\'' +

@@ -63,6 +63,17 @@ public class BookDTO {
         this.formattedIsbn = formattedIsbn;
     }
 
+    @Override
+    public String toString() {
+        return "BookDTO{" +
+                "name='" + name + '\'' +
+                ", genre='" + genre + '\'' +
+                ", description='" + description + '\'' +
+                ", author='" + author + '\'' +
+                ", formattedIsbn='" + formattedIsbn + '\'' +
+                '}';
+    }
+
     public String formatIsbn(String isbn) {
         return String.format(
                 "%s-%s-%s-%s-%s",

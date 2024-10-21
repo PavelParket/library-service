@@ -36,8 +36,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/book/public/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE).hasAnyAuthority("ADMIN")
                         .requestMatchers(HttpMethod.PUT).hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST).hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE).hasAnyAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

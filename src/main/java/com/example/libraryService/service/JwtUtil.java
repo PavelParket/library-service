@@ -11,7 +11,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.function.Function;
 
 @Component
@@ -21,8 +20,8 @@ public class JwtUtil {
     private static final long EXPIRATION_TIME = 300000;
 
     public JwtUtil() {
-        String secreteString = "4574583JKB74358B368245B3J6B8J356854H8B536B8JKB62";
-        byte[] ketBytes = Base64.getDecoder().decode(secreteString.getBytes(StandardCharsets.UTF_8));
+        String secreteKey = "4574583JKB74358B368245B3J6B8J356854H8B536B8JKB62";
+        byte[] ketBytes = Base64.getDecoder().decode(secreteKey.getBytes(StandardCharsets.UTF_8));
         this.key = new SecretKeySpec(ketBytes, "HmacSHA256");
     }
 

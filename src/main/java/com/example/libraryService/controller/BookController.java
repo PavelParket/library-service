@@ -11,20 +11,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "api/book")
+@RequestMapping(value = "/api/book")
 public class BookController {
     @Autowired
     BookService bookService;
 
-    @PutMapping("/c")
+    @PostMapping
     public ResponseEntity<?> create(@RequestBody Book book) {
         BookDTO newBook = bookService.create(book);
+        System.out.println(newBook);
         return newBook == null ?
                 new ResponseEntity<>("Not created", HttpStatus.INTERNAL_SERVER_ERROR) :
                 new ResponseEntity<>(newBook, HttpStatus.CREATED);
     }
 
-    @PutMapping("/u?{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Book book) {
         BookDTO newBook = bookService.update(id, book);
         return newBook == null ?
@@ -57,7 +58,7 @@ public class BookController {
 
     @GetMapping("/isbn={isbn}")
     public ResponseEntity<?> getByISBN(@PathVariable String isbn) {
-        BookDTO book = bookService.getByISBN(isbn);
+        BookDTO book = bookService.getByIsbn(isbn);
         return book == null ?
                 new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND) :
                 new ResponseEntity<>(book, HttpStatus.OK);

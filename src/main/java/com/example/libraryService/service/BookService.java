@@ -28,8 +28,8 @@ public class BookService {
         )
             return null;
 
-        bookRepository.save(book);
-        return bookRepository.findById(book.getId()).map(value -> bookMapper.bookToBookDto(value)).orElse(null);
+        Book newBook = bookRepository.save(book);
+        return bookMapper.bookToBookDto(newBook);
     }
 
     public BookDTO update(Long id, Book book) {
@@ -53,8 +53,8 @@ public class BookService {
         if (book.getIsbn() == null || !book.isValidIsbn(book.getIsbn()))
             book.setIsbn(oldBook.get().getIsbn());
 
-        bookRepository.save(book);
-        return bookRepository.findById(id).map(value -> bookMapper.bookToBookDto(value)).orElse(null);
+        Book newBook = bookRepository.save(book);
+        return bookMapper.bookToBookDto(newBook);
     }
 
     public boolean delete(Long id) {
@@ -72,13 +72,10 @@ public class BookService {
     }
 
     public BookDTO getById(Long id) {
-        return bookRepository.findById(id).map(value -> bookMapper.bookToBookDto(value)).orElse(null);
+        return bookRepository.findById(id).map(e -> bookMapper.bookToBookDto(e)).orElse(null);
     }
 
-    public BookDTO getByISBN(String isbn) {
-        Optional<Book> book = bookRepository.findAll().stream()
-                .filter(e -> e.getIsbn().equals(isbn))
-                .findFirst();
-        return book.map(value -> bookMapper.bookToBookDto(value)).orElse(null);
+    public BookDTO getByIsbn(String isbn) {
+        return bookRepository.findByIsbn(isbn).map(e -> bookMapper.bookToBookDto(e)).orElse(null);
     }
 }
