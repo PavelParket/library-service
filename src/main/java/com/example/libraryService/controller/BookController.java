@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/book")
+@RequestMapping(value = "api/book")
 public class BookController {
     @Autowired
     BookService bookService;
@@ -19,7 +19,6 @@ public class BookController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Book book) {
         BookDTO newBook = bookService.create(book);
-        System.out.println(newBook);
         return newBook == null ?
                 new ResponseEntity<>("Not created", HttpStatus.INTERNAL_SERVER_ERROR) :
                 new ResponseEntity<>(newBook, HttpStatus.CREATED);
@@ -43,7 +42,7 @@ public class BookController {
     @GetMapping("/public/all")
     public ResponseEntity<?> getAll() {
         List<BookDTO> books = bookService.getAll();
-        return books == null ?
+        return books.isEmpty() ?
                 new ResponseEntity<>("Empty", HttpStatus.NOT_FOUND) :
                 new ResponseEntity<>(books, HttpStatus.OK);
     }
