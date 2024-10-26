@@ -16,6 +16,9 @@ public class BookService {
     private BookRepository bookRepository;
 
     @Autowired
+    private LibraryService libraryService;
+
+    @Autowired
     private BookMapper bookMapper;
 
     public BookDTO create(Book book) {
@@ -29,6 +32,7 @@ public class BookService {
             return null;
 
         Book newBook = bookRepository.save(book);
+        libraryService.create(newBook);
         return bookMapper.bookToBookDto(newBook);
     }
 
@@ -63,6 +67,7 @@ public class BookService {
         if (book.isEmpty())
             return false;
 
+        libraryService.delete(id);
         bookRepository.deleteById(id);
         return true;
     }

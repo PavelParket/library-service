@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -21,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableAsync
 public class SecurityConfig {
     @Autowired
     private UserService userService;
@@ -36,8 +38,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/book/public/**").permitAll()
-                        .requestMatchers(HttpMethod.PUT).hasAnyAuthority("ADMIN")
                         .requestMatchers(HttpMethod.POST).hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET).hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT).hasAnyAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE).hasAnyAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )

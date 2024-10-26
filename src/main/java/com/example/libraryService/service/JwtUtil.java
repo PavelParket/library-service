@@ -10,7 +10,6 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.function.Function;
 
 @Component
@@ -27,16 +26,6 @@ public class JwtUtil {
 
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
-                .subject(userDetails.getUsername())
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(key)
-                .compact();
-    }
-
-    public String generateRefreshToken(HashMap<String, Object> claims, UserDetails userDetails) {
-        return Jwts.builder()
-                .claims(claims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
