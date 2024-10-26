@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class BookServiceTests {
+public class BookServiceTest {
     @Mock
     private BookRepository bookRepository;
 
@@ -55,6 +55,7 @@ public class BookServiceTests {
     }
 
     @Test
+    @DisplayName("Save")
     @Order(1)
     public void saveBook() {
         Mockito.when(bookRepository.save(book)).thenReturn(book);
@@ -68,6 +69,7 @@ public class BookServiceTests {
     }
 
     @Test
+    @DisplayName("Update")
     @Order(2)
     public void updateBook() {
         Long id = 1L;
@@ -104,6 +106,7 @@ public class BookServiceTests {
     }
 
     @Test
+    @DisplayName("Get all")
     @Order(3)
     public void getBooks() {
         List<Book> books = new ArrayList<>();
@@ -135,6 +138,7 @@ public class BookServiceTests {
     }
 
     @Test
+    @DisplayName("Get by id")
     @Order(4)
     public void getById() {
         Long id = book.getId();
@@ -159,6 +163,7 @@ public class BookServiceTests {
     }
 
     @Test
+    @DisplayName("Get by isbn")
     @Order(5)
     public void getByIsbn() {
         String isbn = book.getIsbn();
@@ -183,6 +188,7 @@ public class BookServiceTests {
     }
 
     @Test
+    @DisplayName("Delete")
     @Order(6)
     public void deleteBook() {
         Long id = book.getId();

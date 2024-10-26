@@ -16,7 +16,7 @@ import java.util.Optional;
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class BookRepositoryTests {
+public class BookRepositoryTest {
     @Autowired
     private BookRepository bookRepository;
 
@@ -33,22 +33,23 @@ public class BookRepositoryTests {
     }
 
     @Test
-    @DisplayName("Save book")
+    @DisplayName("Save")
     @Order(1)
     @Rollback(value = false)
     public void saveBook() {
-        bookRepository.save(book);
+        Book newBook = bookRepository.save(book);
 
         System.out.println(book);
         Assertions.assertThat(book.getId()).isGreaterThan(0);
     }
 
     @Test
-    @DisplayName("Update book")
+    @DisplayName("Update")
     @Order(2)
     @Rollback(value = false)
     public void updateBook() {
-        Book book = bookRepository.findById(1L).get();
+        Long id = 1L;
+        Book book = bookRepository.findById(id).get();
         book.setName("Update Book");
         Book newBook = bookRepository.save(book);
 
@@ -57,28 +58,29 @@ public class BookRepositoryTests {
     }
 
     @Test
-    @DisplayName("Get book by id")
+    @DisplayName("Get by id")
     @Order(3)
     public void getBookById() {
-        Book book = bookRepository.findById(1L).get();
+        Long id = 1L;
+        Book book = bookRepository.findById(id).get();
 
         System.out.println(book);
-        Assertions.assertThat(book.getId()).isEqualTo(1L);
+        Assertions.assertThat(book.getId()).isEqualTo(id);
     }
 
     @Test
-    @DisplayName("Get book by isbn")
+    @DisplayName("Get by isbn")
     @Order(4)
     public void getBookByIsbn() {
         String isbn = "9783161484104";
         Book book = bookRepository.findByIsbn(isbn).get();
 
         System.out.println(book);
-        Assertions.assertThat(book.getIsbn()).isEqualTo("9783161484104");
+        Assertions.assertThat(book.getIsbn()).isEqualTo(isbn);
     }
 
     @Test
-    @DisplayName("Get all books")
+    @DisplayName("Get all")
     @Order(5)
     public void getBooks() {
         List<Book> books = bookRepository.findAll();
@@ -88,13 +90,14 @@ public class BookRepositoryTests {
     }
 
     @Test
-    @DisplayName("Delete book")
+    @DisplayName("Delete")
     @Order(6)
     @Rollback(value = false)
     public void deleteBook() {
-        bookRepository.deleteById(1L);
+        Long id = 1L;
+        bookRepository.deleteById(id);
 
-        Optional<Book> book = bookRepository.findById(1L);
+        Optional<Book> book = bookRepository.findById(id);
         Assertions.assertThat(book).isEmpty();
     }
 }

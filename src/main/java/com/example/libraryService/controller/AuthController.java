@@ -18,19 +18,25 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<ReqRes> signUp(@RequestBody ReqRes request) {
-        return new ResponseEntity<>(authService.signUp(request), HttpStatus.CREATED);
+        ReqRes response = authService.signUp(request);
+        return response.getStatusCode() == 201 ?
+                new ResponseEntity<>(response, HttpStatus.CREATED) :
+                new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @PostMapping("/signin")
     public ResponseEntity<ReqRes> signIn(@RequestBody ReqRes request) {
         ReqRes response = authService.signIn(request);
-        return response.getStatusCode() == 202 ?
-                new ResponseEntity<>(response, HttpStatus.ACCEPTED) :
+        return response.getStatusCode() == 200 ?
+                new ResponseEntity<>(response, HttpStatus.OK) :
                 new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<ReqRes> refresh(@RequestBody ReqRes request) {
-        return new ResponseEntity<>(authService.refreshToken(request), HttpStatus.OK);
+        ReqRes response = authService.refreshToken(request);
+        return response.getStatusCode() == 200 ?
+                new ResponseEntity<>(response, HttpStatus.OK) :
+                new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }
