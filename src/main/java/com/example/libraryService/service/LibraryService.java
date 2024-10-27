@@ -35,6 +35,18 @@ public class LibraryService {
                 .ifPresent(loan -> libraryRepository.delete(loan));
     }
 
+    @Async
+    public void update(Book book) {
+        Loan loan = libraryRepository.findAll().stream()
+                .filter(e -> e.getBook().getId().equals(book.getId()))
+                .findFirst()
+                .orElse(null);
+
+        assert loan != null;
+        loan.setBook(book);
+        libraryRepository.save(loan);
+    }
+
     public List<BookDTO> getAvailableBooks() {
         return bookMapper.booksToBookDtos(
                 libraryRepository.findAll().stream()

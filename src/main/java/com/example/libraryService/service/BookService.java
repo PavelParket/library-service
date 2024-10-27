@@ -58,6 +58,7 @@ public class BookService {
             book.setIsbn(oldBook.get().getIsbn());
 
         Book newBook = bookRepository.save(book);
+        libraryService.update(newBook);
         return bookMapper.bookToBookDto(newBook);
     }
 

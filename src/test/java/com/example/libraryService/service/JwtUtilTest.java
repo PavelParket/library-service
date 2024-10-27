@@ -23,6 +23,7 @@ public class JwtUtilTest {
     }
 
     @Test
+    @DisplayName("Generate token")
     @Order(1)
     public void generateToken() {
         String token = jwtUtil.generateToken(user);
@@ -32,6 +33,7 @@ public class JwtUtilTest {
     }
 
     @Test
+    @DisplayName("Extract username")
     @Order(2)
     public void extractUsername() {
         String token = jwtUtil.generateToken(user);
@@ -42,6 +44,7 @@ public class JwtUtilTest {
     }
 
     @Test
+    @DisplayName("Is token valid")
     @Order(3)
     public void isTokenValid() {
         String token = jwtUtil.generateToken(user);
@@ -52,6 +55,7 @@ public class JwtUtilTest {
     }
 
     @Test
+    @DisplayName("Is token expired")
     @Order(4)
     public void isTokenExpired() {
         String token = jwtUtil.generateToken(user);

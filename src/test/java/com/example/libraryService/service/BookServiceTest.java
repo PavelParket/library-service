@@ -18,6 +18,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -30,6 +31,9 @@ public class BookServiceTest {
 
     @InjectMocks
     private BookService bookService;
+
+    @Mock
+    private LibraryService libraryService;
 
     private Book book;
 
@@ -60,12 +64,16 @@ public class BookServiceTest {
     public void saveBook() {
         Mockito.when(bookRepository.save(book)).thenReturn(book);
         Mockito.when(bookMapper.bookToBookDto(book)).thenReturn(bookDTO);
+        Mockito.doNothing().when(libraryService).create(Mockito.any(Book.class));
 
         BookDTO savedBook = bookService.create(book);
 
         System.out.println(savedBook);
         assertThat(savedBook).isNotNull();
         assertThat(savedBook.getName()).isEqualTo(bookDTO.getName());
+        verify(bookRepository).save(book);
+        verify(bookMapper).bookToBookDto(book);
+        verify(libraryService).create(any(Book.class));
     }
 
     @Test
@@ -74,6 +82,7 @@ public class BookServiceTest {
     public void updateBook() {
         Long id = 1L;
         Mockito.when(bookRepository.findById(id)).thenReturn(Optional.of(book));
+        Mockito.doNothing().when(libraryService).update(Mockito.any(Book.class));
 
         Book newBook = new Book();
         newBook.setName("Updated Book");
@@ -194,10 +203,11 @@ public class BookServiceTest {
         Long id = book.getId();
         Mockito.when(bookRepository.findById(id)).thenReturn(Optional.of(book));
         Mockito.doNothing().when(bookRepository).deleteById(id);
+        Mockito.doNothing().when(libraryService).delete(Mockito.anyLong());
 
         boolean result = bookService.delete(id);
 
-        Mockito.verify(bookRepository, Mockito.times(1)).deleteById(id);
+        verify(bookRepository, Mockito.times(1)).deleteById(id);
         assertTrue(result);
         System.out.println("Successful");
     }

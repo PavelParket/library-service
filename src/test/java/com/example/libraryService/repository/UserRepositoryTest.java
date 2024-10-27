@@ -37,7 +37,7 @@ public class UserRepositoryTest {
     public void saveUser() {
         User newUser = userRepository.save(user);
 
-        Assertions.assertThat(user.getId()).isGreaterThan(0);
+        Assertions.assertThat(newUser.getId()).isGreaterThan(0);
         System.out.println(newUser);
     }
 
@@ -49,7 +49,7 @@ public class UserRepositoryTest {
         User user = userRepository.findById(id).get();
 
         System.out.println(user);
-        Assertions.assertThat(user.getId()).isEqualTo(1L);
+        Assertions.assertThat(user.getId()).isEqualTo(id);
     }
 
     @Test

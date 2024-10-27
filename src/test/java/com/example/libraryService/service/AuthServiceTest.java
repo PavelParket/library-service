@@ -57,6 +57,7 @@ public class AuthServiceTest {
     }
 
     @Test
+    @DisplayName("Sign up")
     @Order(1)
     public void signUp() {
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
@@ -69,6 +70,7 @@ public class AuthServiceTest {
     }
 
     @Test
+    @DisplayName("Sign in")
     @Order(2)
     public void signIn() {
         Mockito.when(userRepository.findByUsername(Mockito.anyString())).thenReturn(Optional.of(user));
@@ -84,6 +86,7 @@ public class AuthServiceTest {
     }
 
     @Test
+    @DisplayName("Refresh token")
     @Order(3)
     public void refreshToken() {
         Mockito.when(userRepository.findByUsername(Mockito.anyString())).thenReturn(Optional.of(user));

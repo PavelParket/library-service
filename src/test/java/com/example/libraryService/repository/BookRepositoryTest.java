@@ -25,6 +25,7 @@ public class BookRepositoryTest {
     @BeforeEach
     public void setUp() {
         book = new Book();
+        book.setId(1L);
         book.setName("Book test");
         book.setGenre("Tests");
         book.setDescription("Fireanbaerogeaoe");
