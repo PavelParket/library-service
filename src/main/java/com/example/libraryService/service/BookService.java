@@ -37,27 +37,33 @@ public class BookService {
     }
 
     public BookDTO update(Long id, Book book) {
-        Optional<Book> oldBook = bookRepository.findById(id);
+        Optional<Book> findBook = bookRepository.findById(id);
 
-        if (oldBook.isEmpty())
+        if (findBook.isEmpty())
             return null;
 
-        if (book.getName() == null)
-            book.setName(oldBook.get().getName());
+        Book oldBook = findBook.get();
 
-        if (book.getGenre() == null)
-            book.setGenre(oldBook.get().getGenre());
+        if (book.getName() != null) {
+            oldBook.setName(book.getName());
+        }
 
-        if (book.getAuthor() == null)
-            book.setAuthor(oldBook.get().getAuthor());
+        if (book.getGenre() != null) {
+            oldBook.setGenre(book.getGenre());
+        }
 
-        if (book.getDescription() == null)
-            book.setDescription(oldBook.get().getDescription());
+        if (book.getAuthor() != null) {
+            oldBook.setAuthor(book.getAuthor());
+        }
 
-        if (book.getIsbn() == null || !book.isValidIsbn(book.getIsbn()))
-            book.setIsbn(oldBook.get().getIsbn());
+        if (book.getDescription() != null) {
+            oldBook.setDescription(book.getDescription());
+        }
 
-        Book newBook = bookRepository.save(book);
+        if (book.getIsbn() != null && book.isValidIsbn(book.getIsbn()))
+            oldBook.setIsbn(book.getIsbn());
+
+        Book newBook = bookRepository.save(oldBook);
         libraryService.update(newBook);
         return bookMapper.bookToBookDto(newBook);
     }
