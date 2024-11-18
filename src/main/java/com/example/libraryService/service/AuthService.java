@@ -53,6 +53,7 @@ public class AuthService {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
             User user = userRepository.findByUsername(request.getUsername()).orElseThrow();
             String token = jwtUtil.generateToken(user);
+            response.setRole(user.getRole());
             response.setStatusCode(200);
             response.setToken(token);
             response.setExpirationTime("5 min");

@@ -1,6 +1,8 @@
 package com.example.libraryService.dto;
 
 public class BookDTO {
+    private Long id;
+
     private String name;
 
     private String genre;
@@ -11,7 +13,8 @@ public class BookDTO {
 
     private String formattedIsbn;
 
-    public BookDTO(String name, String genre, String description, String author, String formattedIsbn) {
+    public BookDTO(Long id, String name, String genre, String description, String author, String formattedIsbn) {
+        this.id = id;
         this.name = name;
         this.genre = genre;
         this.description = description;
@@ -21,6 +24,14 @@ public class BookDTO {
 
     public BookDTO() {
 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -66,7 +77,8 @@ public class BookDTO {
     @Override
     public String toString() {
         return "BookDTO{" +
-                "name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", genre='" + genre + '\'' +
                 ", description='" + description + '\'' +
                 ", author='" + author + '\'' +
