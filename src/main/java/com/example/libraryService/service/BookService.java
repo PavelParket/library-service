@@ -7,8 +7,10 @@ import com.example.libraryService.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class BookService {
@@ -22,14 +24,10 @@ public class BookService {
     private BookMapper bookMapper;
 
     public BookDTO create(Book book) {
-        if (book.getName() == null ||
-                book.getGenre() == null ||
-                book.getDescription() == null ||
-                book.getAuthor() == null ||
-                book.getIsbn() == null ||
-                !book.isValidIsbn(book.getIsbn())
-        )
+        if (Stream.of(book.getName(), book.getGenre(), book.getDescription(), book.getAuthor(), book.getIsbn()
+        ).anyMatch(this::isNullOrEmpty)) {
             return null;
+        }
 
         Book newBook = bookRepository.save(book);
         libraryService.create(newBook);
@@ -89,5 +87,9 @@ public class BookService {
 
     public BookDTO getByIsbn(String isbn) {
         return bookRepository.findByIsbn(isbn).map(e -> bookMapper.bookToBookDto(e)).orElse(null);
+    }
+
+    private boolean isNullOrEmpty(String string) {
+        return string == null || string.isEmpty();
     }
 }
