@@ -16,7 +16,9 @@ import java.util.function.Function;
 public class JwtUtil {
     private final SecretKey key;
 
-    private static final long EXPIRATION_TIME = 300000;
+    private static final long EXPIRATION_TIME = 60000;
+
+    private static final long EXPIRATION_LONG_TIME = 600000;
 
     public JwtUtil() {
         String secreteKey = "4574583JKB74358B368245B3J6B8J356854H8B536B8JKB62";
@@ -33,12 +35,17 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String extractUsername(String token) {
-        return extractClaims(token, Claims::getSubject);
+    public String generateRefreshToken(UserDetails userDetails) {
+        return Jwts.builder()
+                .subject(userDetails.getUsername())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_LONG_TIME))
+                .signWith(key)
+                .compact();
     }
 
-    private <T> T extractClaims(String token, Function<Claims, T> claimsTFunction) {
-        return claimsTFunction.apply(Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload());
+    public String extractUsername(String token) {
+        return extractClaims(token, Claims::getSubject);
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
@@ -48,5 +55,13 @@ public class JwtUtil {
 
     public boolean isTokenExpired(String token) {
         return extractClaims(token, Claims::getExpiration).before(new Date());
+    }
+
+    private <T> T extractClaims(String token, Function<Claims, T> claimsTFunction) {
+        if (token == null || token.isEmpty()) {
+            throw new IllegalArgumentException("Token cannot be null or empty");
+        }
+
+        return claimsTFunction.apply(Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload());
     }
 }

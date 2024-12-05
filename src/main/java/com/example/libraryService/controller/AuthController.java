@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api/auth")
+@RequestMapping(value = "api/auth")
 @Tag(name = "Authentication controller", description = "Sign up, sign in, refresh token")
 public class AuthController {
     @Autowired

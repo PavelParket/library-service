@@ -53,9 +53,11 @@ public class AuthService {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
             User user = userRepository.findByUsername(request.getUsername()).orElseThrow();
             String token = jwtUtil.generateToken(user);
+            String longToken = jwtUtil.generateRefreshToken(user);
             response.setRole(user.getRole());
             response.setStatusCode(200);
             response.setToken(token);
+            response.setLongToken(longToken);
             response.setExpirationTime("5 min");
             response.setMessage("Successfully signed in");
         } catch (Exception e) {
@@ -68,13 +70,15 @@ public class AuthService {
 
     public ReqRes refreshToken(ReqRes request) {
         ReqRes response = new ReqRes();
-        String username = jwtUtil.extractUsername(request.getToken());
+        String username = jwtUtil.extractUsername(request.getLongToken());
         User user = userRepository.findByUsername(username).orElseThrow();
 
-        if (jwtUtil.isTokenValid(request.getToken(), user)) {
+        if (jwtUtil.isTokenValid(request.getLongToken(), user)) {
             String newToken = jwtUtil.generateToken(user);
+            String newLongToken = jwtUtil.generateRefreshToken(user);
             response.setStatusCode(200);
             response.setToken(newToken);
+            response.setLongToken(newLongToken);
             response.setExpirationTime("5 min");
             response.setMessage("Token was refreshed successfully");
         } else

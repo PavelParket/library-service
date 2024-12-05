@@ -15,6 +15,8 @@ public class ReqRes {
 
     private String token;
 
+    private String longToken;
+
     private String expirationTime;
 
     private String error;
@@ -25,20 +27,21 @@ public class ReqRes {
 
     private User user;
 
-    public ReqRes(int statusCode, String username, String password, String token, String expirationTime, String error, String message, String role, User user) {
+    public ReqRes() {
+
+    }
+
+    public ReqRes(int statusCode, String username, String password, String token, String longToken, String expirationTime, String error, String message, String role, User user) {
         this.statusCode = statusCode;
         this.username = username;
         this.password = password;
         this.token = token;
+        this.longToken = longToken;
         this.expirationTime = expirationTime;
         this.error = error;
         this.message = message;
         this.role = role;
         this.user = user;
-    }
-
-    public ReqRes() {
-
     }
 
     public int getStatusCode() {
@@ -71,6 +74,14 @@ public class ReqRes {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getLongToken() {
+        return longToken;
+    }
+
+    public void setLongToken(String longToken) {
+        this.longToken = longToken;
     }
 
     public String getExpirationTime() {
@@ -120,6 +131,7 @@ public class ReqRes {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", token='" + token + '\'' +
+                ", longToken='" + token + '\'' +
                 ", expiration time='" + expirationTime + '\'' +
                 ", error='" + error + '\'' +
                 ", message='" + message + '\'' +
